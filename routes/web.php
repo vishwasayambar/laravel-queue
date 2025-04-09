@@ -29,6 +29,7 @@ require __DIR__.'/auth.php';
 
 Route::get('testJob', function () {
 //    (new \App\Jobs\SendWelcomeEmail())->handle(); //Without Queue
+//        \App\Jobs\SendWelcomeEmail::dispatch()->delay(now()->addMinutes(5)); // This will Delay the processing of job by worker for 5 min even worker is there it it will not process till 5 min
         \App\Jobs\SendWelcomeEmail::dispatch();
         dd('Added In Queue');
 });
