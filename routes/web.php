@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Jobs\GenerateReport;
 use App\Jobs\PaymentProcess;
 use App\Jobs\SendWelcomeEmail;
 use Illuminate\Foundation\Application;
@@ -40,6 +41,7 @@ Route::get('testJob', function () {
     foreach (range(1, 100) as $i) {
         SendWelcomeEmail::dispatch();
     }
+
 //    Now above it taking more time to run but below is Payment job it should run first then how then there is queue priority comes
 //Solution One = Run multiple workers like two separate tabs run php artisan queue:work so it will complete fast but
 // Solution 2 = High priority task run on separate queue and while running worker there is method option to set queue priority
@@ -47,4 +49,8 @@ Route::get('testJob', function () {
 //bydefault it runs on default queue if we not provide such options
         PaymentProcess::dispatch()->onQueue('payment');
 //        dd('Added In Queue');
+});
+
+Route::get('generateReport', function () {
+    GenerateReport::dispatch();
 });
